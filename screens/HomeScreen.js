@@ -1,27 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, NativeStackView } from '@react-navigation/native-stack';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import UsersScreen from './screens/UsersScreen';
+import { auth } from '../firebase';
+import { useNavigation } from '@react-navigation/core'; 
 
-const Stack = createNativeStackNavigator();
+const HomeScreen = () => {
+  const navigation = useNavigation()
 
-export default function App() {
+
+  const handleSignOut = () => {
+
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login")
+      })
+      .catch(error => alert(error.message))
+  }
+
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen">
-        <Stack.Screen options={{headerShown : false}} name="Login" component={LoginScreen}/>
-        <Stack.Screen options={{headerShown : false}} name="Home" component={HomeScreen}/>
-        <Stack.Screen options={{headerShown : false}} name="Users" component={UsersScreen}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+        
+        <TouchableOpacity onPress={handleSignOut}>
+            <Text>Cerrar sesión</Text>
+        </TouchableOpacity>
+    </View>
+
 
 
   );
 }
+
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {

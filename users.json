@@ -1,0 +1,14 @@
+[
+    {
+      "username": "Ruben",
+      "email": "ruben@correo.cl",
+      "password": "123456",
+      "withCredentials": true
+    },
+    {
+        "username": "Luciano",
+        "email": "luciano@correo.cl",
+        "password": "123456",
+        "withCredentials": true
+    }
+  ]
