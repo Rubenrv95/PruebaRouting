@@ -8,6 +8,10 @@ const HomeScreen = () => {
   const navigation = useNavigation()
 
 
+  const handleUsers = () => {
+     navigation.navigate("Users")
+  }
+
   const handleSignOut = () => {
 
     auth
@@ -21,13 +25,19 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+
+        <TouchableOpacity style={styles.btnNav} onPress={handleUsers}>
+            <Text style={styles.btnText}>Usuarios</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btnNav}>
+            <Text style={styles.btnText}>Mapas</Text>
+        </TouchableOpacity>
         
-        <TouchableOpacity onPress={handleSignOut}>
-            <Text>Cerrar sesión</Text>
+        <TouchableOpacity style={styles.btnLogOut} onPress={handleSignOut}>
+            <Text style={styles.btnText}>Cerrar sesión</Text>
         </TouchableOpacity>
     </View>
-
-
 
   );
 }
@@ -41,37 +51,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  btnNav: {
+    backgroundColor: 'blue',
+    borderRadius: 6,
+    alignItems:"center",
+    justifyContent:"center",
+    marginBottom: 50,
+    width: 130,
+    height: 40,
+},
 
-  image: {
-    marginBottom: 40
-  },
-
-  TextInput: {
-      height: 50,
-      width: 150,
-      color: 'black',
-      textAlign: 'center',
-      backgroundColor: '#c9c9c9',
-      borderRadius: 10,
-  },
-
-  VistaInput: {
-      marginTop: 15,
-      borderRadius: 10,
-      alignItems: 'center',
-  },
-
-  firmText: {
-    marginTop: 80,
-    color: '#999999',
-  },
-
-  btn: {
-      backgroundColor: 'black',
+  btnLogOut: {
+      backgroundColor: 'red',
       borderRadius: 6,
       alignItems:"center",
       justifyContent:"center",
-      marginTop: 30,
+      marginTop: 300,
       width: 130,
       height: 40,
   },
