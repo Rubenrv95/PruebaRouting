@@ -1,27 +1,34 @@
 import React ,{ useEffect, useState }from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity } from 'react-native';
+import { ReactNativeFirebase } from '@react-native-firebase/app';
+import { firebase } from '../firebase';
 
 const UsersScreen = () => {
 
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-    const getMovies = async () => {
-      try {
-        const response = await fetch('https://reactnative.dev/movies.json');
-        const json = await response.json();
-        setData(json.movies);
-      }
-      catch (error) {
-        console.error(error);
-      } 
-      finally {
-        setLoading(false);
-      }
-      }
+    const [users, setUsers] = useState([]);
+    const usersRef = firebase.firestore().collection('users');
+    
+    const getUsers = async () => {
+      usersRef
+        .onSnapshot(
+          querySnapshot => {
+            const users = []
+            querySnapshot.forEach((doc) => {
+              const {username, email, created_at} = doc.data()
+              users.push({
+                id: doc.id,
+                username,
+                email,
+                created_at,
+              })
+            })
+            setUsers(users)
+          }
+        )
+    }
     
       useEffect(() => {
-        getMovies();
+        getUsers();
       }, []);
 
     return (
@@ -29,15 +36,14 @@ const UsersScreen = () => {
         <TouchableOpacity style={styles.btnAdd}>
             <Text style={styles.btnText}>Añadir usuario</Text>
         </TouchableOpacity>
-        {isLoading ? <ActivityIndicator/> : (
           <FlatList
-            data={data}
-            keyExtractor={({ id }, index) => id}
-            renderItem={({ item }) => (
-              <Text>{item.id} , {item.title} </Text>
+            data={users}
+            numColumns={1}
+            renderItem={({item}) => (
+              <Text>{item.username}  {item.email} </Text>
             )}
           />
-        )}
+
       </View>
     );
 };
