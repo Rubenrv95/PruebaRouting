@@ -5,46 +5,41 @@ import { firebase } from '../firebase';
 
 const UsersScreen = () => {
 
-    const [users, setUsers] = useState([]);
-    const usersRef = firebase.firestore().collection('users');
-    
-    const getUsers = async () => {
-      usersRef
-        .onSnapshot(
-          querySnapshot => {
-            const users = []
-            querySnapshot.forEach((doc) => {
-              const {username, email, created_at} = doc.data()
-              users.push({
-                id: doc.id,
-                username,
-                email,
-                created_at,
-              })
-            })
-            setUsers(users)
-          }
-        )
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getUsers = async () => {
+     try {
+      const response = await fetch('https://routing-c8875-default-rtdb.firebaseio.com/users.json');
+      const json = await response.json();
+      setData(json);
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
+  }
     
-      useEffect(() => {
-        getUsers();
-      }, []);
+    useEffect(() => {
+      getUsers();
+    }, []);
 
     return (
       <View style={{ flex: 1, padding: 24 }}>
-        <TouchableOpacity style={styles.btnAdd}>
+      <TouchableOpacity style={styles.btnAdd}>
             <Text style={styles.btnText}>Añadir usuario</Text>
         </TouchableOpacity>
-          <FlatList
-            data={users}
-            numColumns={1}
-            renderItem={({item}) => (
-              <Text>{item.username}  {item.email} </Text>
-            )}
-          />
-
-      </View>
+      {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({ item }) => (
+            <Text> {item.username} {item.email} {item.created_at} </Text>
+          )}
+        />
+      )}
+    </View>
     );
 };
 
