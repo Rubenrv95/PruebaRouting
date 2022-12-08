@@ -2,7 +2,8 @@ import React ,{ useEffect, useState }from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity } from 'react-native';
 import { ReactNativeFirebase } from '@react-native-firebase/app';
 import { firebase } from '../firebase';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import {ref, set} from 'firebase/database';
 import { useNavigation } from '@react-navigation/core'; 
 
 
@@ -33,24 +34,19 @@ const AddUser = () => {
   //funcion para agregar usuario a la base de datos
   const createUser = async () => {
         try {
-            var RandomNumber = Math.floor(Math.random() * 100) + 1 ;
-            const response = await fetch('https://routing-c8875-default-rtdb.firebaseio.com/users.json', {
-                    method: 'POST',
-                    headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        password: password,
-                        id: RandomNumber,
-                        created_at: '12/12/2022',
-                    })
-                })
+            var RandomNumber = Math.floor(Math.random() * 100) + 1 ; //generamos ID random
+            const response = await fetch('https://routing-c8875-default-rtdb.firebaseio.com/users.json');
             const json = await response.json();
+            const size = Object.keys(json).length;
+
+            set(ref(db, 'users/' + size), {
+              username: username,
+              email: email,
+              password: password,
+              id: RandomNumber,
+              created_at: new Date().toLocaleString()
+            });
             handleSignUp(); //De paso, se registra al usuario
-            navigation.navigate("Users")
             return json.users;
         }
         catch (error) {
@@ -73,7 +69,7 @@ return (
         </View>
 
         <View style={styles.VistaInput}>
-            <TextInput style={styles.TextInput} placeholder="Ingrese una contraseña" value={password} placeholderTextColor= "#707070"  onChangeText={text => setPassword(text)}/>
+            <TextInput style={styles.TextInput} placeholder="Ingrese una contraseña" secureTextEntry={true}  value={password} placeholderTextColor= "#707070"  onChangeText={text => setPassword(text)}/>
         </View>
 
 
