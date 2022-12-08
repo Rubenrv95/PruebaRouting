@@ -25,17 +25,6 @@ const LoginScreen = () => {
     return unsuscribe
   }, [])
 
-  // en caso de que necesite registrar usuario
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log(user.email);
-      })
-      .catch(error => alert(error.message))
-  }
-
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)

@@ -2,18 +2,28 @@ import React ,{ useEffect, useState }from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity } from 'react-native';
 import { ReactNativeFirebase } from '@react-native-firebase/app';
 import { firebase } from '../firebase';
+import { useNavigation } from '@react-navigation/core'; 
+
 
 const UsersScreen = () => {
+
+  const navigation = useNavigation()
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
+
+  //Lleva al usuario a la vista para añadir usuarios
+  const gotoAddUsers = () => {
+    navigation.navigate("Añadir usuario")
+ }
+
+ //se obtienen a los usuarios de la API
   const getUsers = async () => {
      try {
       const response = await fetch('https://routing-c8875-default-rtdb.firebaseio.com/users.json');
       const json = await response.json();
       setData(json);
-      console.log(json);
     } catch (error) {
       console.error(error);
     } finally {
@@ -27,7 +37,7 @@ const UsersScreen = () => {
 
     return (
       <View style={{ flex: 1, padding: 24 }}>
-      <TouchableOpacity style={styles.btnAdd}>
+      <TouchableOpacity style={styles.btnAdd} onPress={gotoAddUsers}>
             <Text style={styles.btnText}>Añadir usuario</Text>
         </TouchableOpacity>
       {isLoading ? <ActivityIndicator/> : (
@@ -35,7 +45,7 @@ const UsersScreen = () => {
           data={data}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
-            <Text> {item.username} {item.email} {item.created_at} </Text>
+            <Text> {item.username}, {item.email}, {item.created_at} </Text>
           )}
         />
       )}
@@ -74,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"center",
     marginBottom: 30,
-    marginLeft: 240,
+    marginLeft: 120,
     width: 130,
     height: 40,
 },
