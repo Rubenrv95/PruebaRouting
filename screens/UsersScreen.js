@@ -42,10 +42,12 @@ const UsersScreen = () => {
         </TouchableOpacity>
       {isLoading ? <ActivityIndicator/> : (
         <FlatList
+          style={styles.lista} 
           data={data}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
-            <Text> {item.username}, {item.email}, {item.created_at} </Text>
+            <Text style={styles.elementoLista}> {'Nombre:'} {item.username} {'\n'} {'Correo:'} {item.email} {'\n'} {'Fecha de creación:'} {item.created_at}</Text>
+            
           )}
         />
       )}
@@ -70,6 +72,16 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       backgroundColor: '#c9c9c9',
       borderRadius: 10,
+  },
+
+  lista: {
+    textAlign: "center",
+  },
+
+  elementoLista: {
+      marginTop: 10,
+      borderWidth: 1,
+      borderRadius: 6,
   },
 
   VistaInput: {

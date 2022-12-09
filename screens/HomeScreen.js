@@ -12,6 +12,10 @@ const HomeScreen = () => {
      navigation.navigate("Users")
   }
 
+  const handleMaps = () => {
+    navigation.navigate("Mapas")
+ }
+
   const handleSignOut = () => {
 
     auth
@@ -30,7 +34,7 @@ const HomeScreen = () => {
             <Text style={styles.btnText}>Usuarios</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btnNav}>
+        <TouchableOpacity style={styles.btnNav} onPress={handleMaps}>
             <Text style={styles.btnText}>Mapas</Text>
         </TouchableOpacity>
         
