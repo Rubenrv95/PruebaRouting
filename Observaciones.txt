@@ -1,0 +1,11 @@
+-Se utilizó Firebase como base de datos y como API de prueba.
+
+
+-Para el módulo de añadir usuario, en un principio se pudo hacer ésto mediante un Fetch utilizando el método POST.
+Sin embargo, firebase generaba un código aleatorio para cada entrada, el cual impedía leer correctamente los datos
+de usuarios de la API. Por temas de funcionalidad, se decidió utilizar otro método con tal de permitir la creación
+de usuarios y la visualización correcta de éstos, pero es posible insertar datos usando un fetch POST con la API. 
+
+
+-En la API hay almacenadas dos coordenadas para los marcadores, por lo tanto debería poder encontrar solo 2 marcadores
+en la vista del mapa.
