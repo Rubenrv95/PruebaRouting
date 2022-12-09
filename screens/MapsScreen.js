@@ -43,7 +43,8 @@ const MapsScreen = () => {
             }}
         >
 
-            {data.map(marker => (
+            
+            {data.map(marker => ( //se posicionan todos los marcadores de la base de datos según las coordenadas correspondientes
                 <Marker 
                 key={marker.id}
                 coordinate={{

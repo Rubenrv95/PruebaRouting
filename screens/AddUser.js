@@ -31,6 +31,8 @@ const AddUser = () => {
       .catch(error => alert(error.message))
   }
 
+
+  //función para validar las entradas con tal de que no estén vacías
   const validateInputs = event => {
       event.preventDefault();
 

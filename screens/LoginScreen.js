@@ -25,6 +25,7 @@ const LoginScreen = () => {
     return unsuscribe
   }, [])
 
+  //función para login
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)

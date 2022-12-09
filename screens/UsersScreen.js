@@ -40,7 +40,7 @@ const UsersScreen = () => {
       <TouchableOpacity style={styles.btnAdd} onPress={gotoAddUsers}>
             <Text style={styles.btnText}>Añadir usuario</Text>
         </TouchableOpacity>
-      {isLoading ? <ActivityIndicator/> : (
+      {isLoading ? <ActivityIndicator/> : ( //imprimimos a todos los usuarios de la base de datos en la lista
         <FlatList
           style={styles.lista} 
           data={data}
